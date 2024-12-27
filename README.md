@@ -127,8 +127,11 @@ The API uses **Bearer Token** for authentication. When a user is created, a uniq
 ```makefile
 Authorization: Bearer your_api_token
 ```
-
 ---
+
+## 🔐 Run unit tests
+
+`./vendor/bin/simple-phpunit`
 
 ## 📜 Routes
 
