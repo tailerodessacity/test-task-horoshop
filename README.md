@@ -1,51 +1,227 @@
-# Symfony Docker
+# Symfony Docker 🐳⚡
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
-with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
+A **Docker**-based installer and runtime for the powerful [Symfony](https://symfony.com) web framework, featuring [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) for seamless development environments!
 
 ![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
 
-## Getting Started
+## 🚀 Getting Started
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --no-cache` to build fresh images
-3. Run `docker compose up --pull always -d --wait` to set up and start a fresh Symfony project
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+Follow these simple steps to get your Symfony project up and running in a Docker container:
 
-## Features
+### 1. Install Docker Compose
 
-* Production, development and CI ready
-* Just 1 service by default
-* Blazing-fast performance thanks to [the worker mode of FrankenPHP](https://github.com/dunglas/frankenphp/blob/main/docs/worker.md) (automatically enabled in prod mode)
-* [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-* Automatic HTTPS (in dev and prod)
-* HTTP/3 and [Early Hints](https://symfony.com/blog/new-in-symfony-6-3-early-hints) support
-* Real-time messaging thanks to a built-in [Mercure hub](https://symfony.com/doc/current/mercure.html)
-* [Vulcain](https://vulcain.rocks) support
-* Native [XDebug](docs/xdebug.md) integration
-* Super-readable configuration
+If you haven’t installed Docker Compose yet, follow the instructions to install the latest version (v2.10+):
 
-**Enjoy!**
+- [Install Docker Compose](https://docs.docker.com/compose/install/)
 
-## Docs
+### 2. Build Fresh Docker Images
 
-1. [Options available](docs/options.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using MySQL instead of PostgreSQL](docs/mysql.md)
-8. [Using Alpine Linux instead of Debian](docs/alpine.md)
-9. [Using a Makefile](docs/makefile.md)
-10. [Updating the template](docs/updating.md)
-11. [Troubleshooting](docs/troubleshooting.md)
+Run the following command to build fresh images for the Symfony application:
 
-## License
+```bash
+docker compose build --no-cache
+```
 
-Symfony Docker is available under the MIT License.
+### 3. Start Your Symfony Project
 
-## Credits
+Set up and start a fresh Symfony project by running:
 
-Created by [Kévin Dunglas](https://dunglas.dev), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+```bash
+docker compose up --pull always -d --wait
+```
+
+### 4. Access the Project
+
+Open your web browser and visit `https://localhost`. You’ll need to accept the auto-generated TLS certificate. For more details on handling this, check [this StackOverflow post](https://stackoverflow.com/a/15076602/1352334).
+
+### 5. Stop the Docker Containers
+
+When you’re done, stop the Docker containers with:
+
+```bash
+docker compose down --remove-orphans
+```
+
+---
+
+## 🧑‍💻 User Management API
+
+### Description
+
+The **User Management API** is a RESTful API built with Symfony, designed for managing users. It supports operations like creating, reading, updating, and deleting users. It also features secure authentication via Bearer tokens.
+
+---
+
+## 🛠️ Technologies
+
+- **Language**: PHP 8.x
+- **Framework**: Symfony 6.x
+- **Database**: PostgreSQL
+- **ORM**: Doctrine
+- **Authentication**: Bearer Token
+- **Validation**: Symfony Validator
+- **Events**: Symfony Event Dispatcher
+- **Logging**: PSR-3 Logger
+
+---
+
+## 📝 Installation
+
+### 1. Clone the Repository
+
+Clone the repository and navigate into the project directory:
+
+```bash
+git clone https://github.com/tailerodessacity/test-task-horoshop
+cd test-task-horoshop
+```
+
+### 2. Install Dependencies
+
+Install the required dependencies using Composer:
+
+```bash
+composer install
+```
+
+### 3. Configure Environment Variables
+
+Copy the `.env` file and configure your database connection:
+
+```bash
+cp .env .env.dev
+```
+
+Then, edit `.env.dev` and update the following settings:
+
+```env
+DATABASE_URL="postgresql://app-php:!ChangeMe!@app-php:5432/app?serverVersion=16&charset=utf8"
+APP_ENV=dev
+APP_SECRET=your_secret_key
+```
+
+### 4. Run Migrations
+
+Run the migrations to create the database schema:
+
+```bash
+php bin/console doctrine:migrations:migrate
+```
+
+---
+
+## 🚀 Usage
+
+### API Endpoint
+
+The API is accessible at: `http://localhost/v1/api/users`
+
+---
+
+## 🔐 Authentication
+
+The API uses **Bearer Token** for authentication. When a user is created, a unique `apiToken` is generated, which must be included in the `Authorization` header for protected routes.
+
+**Example Header**:
+
+```makefile
+Authorization: Bearer your_api_token
+```
+
+---
+
+## 📜 Routes
+
+### 1. **Get List of Users**
+
+- **URL**: `/v1/api/users`
+- **Method**: `GET`
+- **Access**: `ROLE_USER` and above
+
+**Example Request**:
+
+```bash
+curl -H "Authorization: Bearer your_api_token" http://localhost/v1/api/users
+```
+
+### 2. **Create a New User**
+
+- **URL**: `/v1/api/users`
+- **Method**: `POST`
+- **Access**: `ROLE_ADMIN`
+
+**Example Request**:
+
+```bash
+curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer admin_api_token" \
+-d '{"login": "newuser", "phone": "12345678", "password": "securepassword"}' \
+http://localhost:8000/v1/api/users
+```
+
+### 3. **Get User Information**
+
+- **URL**: `/v1/api/users/{id}`
+- **Method**: `GET`
+- **Access**: `ROLE_USER` and above
+
+**Example Request**:
+
+```bash
+curl -H "Authorization: Bearer your_api_token" http://localhost/v1/api/users/1
+```
+
+### 4. **Update a User**
+
+- **URL**: `/v1/api/users/{id}`
+- **Method**: `PUT`
+- **Access**: `ROLE_USER` and above
+
+**Example Request**:
+
+```bash
+curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer your_api_token" \
+-d '{"login": "updateduser", "phone": "87654321", "password": "newpassword"}' \
+http://localhost/v1/api/users/1
+```
+
+### 5. **Delete a User**
+
+- **URL**: `/v1/api/users/{id}`
+- **Method**: `DELETE`
+- **Access**: `ROLE_ADMIN`
+
+**Example Request**:
+
+```bash
+curl -X DELETE -H "Authorization: Bearer admin_api_token" http://localhost/v1/api/users/1
+```
+
+---
+
+## 🔧 Events and Subscribers
+
+The API utilizes events to handle user-related actions:
+
+- `user.created` — Triggered when a user is created.
+- `user.updated` — Triggered when a user is updated.
+- `user.deleted` — Triggered when a user is deleted.
+
+The **UserEventSubscriber** listens to these events and logs the corresponding information.
+
+---
+
+## ⚠️ Exception Handling
+
+The **ExceptionListener** class handles all exceptions and returns standardized JSON responses with error information.
+
+---
+
+## 🔒 Security
+
+Security settings are configured in `config/packages/security.yaml`. The key components are:
+
+- **User Providers**: Uses the User entity for authentication.
+- **Password Hashing**: Automatically selects the optimal hashing algorithm.
+- **Firewalls**: Protects API routes using Bearer Tokens and standard login forms for the main routes.
+- **Role Hierarchy**: `ROLE_ADMIN` inherits `ROLE_USER` permissions.
+- **Access Control**: Routes are restricted based on roles and HTTP methods.
