@@ -1,0 +1,34 @@
+# config/services.yaml
+
+services:
+    # Default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Автоматически внедряет зависимости в ваши сервисы.
+        autoconfigure: true # Автоматически регистрирует ваши сервисы как команды, обработчики событий и т.д.
+
+    # Делаем классы в src/ доступными для использования как сервисы
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\Security\BearerTokenAuthenticator:
+        arguments:
+            $userRepository: '@App\Repository\UserRepository'
+        tags: ['security.authenticator']
+
+    App\Command\CreateUserCommand:
+        tags: ['console.command']
+
+    App\Command\GenerateApiTokenCommand:
+        tags: ['console.command']
+        
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+    App\UserEventSubscriber:
+        tags:
+            - { name: 'kernel.event_subscriber' }

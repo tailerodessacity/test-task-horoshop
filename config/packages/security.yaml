@@ -1,0 +1,41 @@
+# config/packages/security.yaml
+security:
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: login
+
+    password_hashers:
+        App\Entity\User:
+            algorithm: auto
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        api:
+            pattern: ^/v1/api
+            stateless: true
+            provider: app_user_provider
+            custom_authenticator: App\Security\BearerTokenAuthenticator
+
+        main:
+            lazy: true
+            provider: app_user_provider
+            form_login:
+                login_path: login
+                check_path: login
+            logout:
+                path: logout
+                target: /
+                
+    role_hierarchy:
+        ROLE_ADMIN: [ ROLE_USER ]
+        
+    access_control:
+        - { path: ^/v1/api/users$, roles: ROLE_ADMIN, methods: [POST] }
+        - { path: ^/v1/api/users/\d+$, roles: ROLE_ADMIN, methods: [DELETE] }
+        - { path: ^/v1/api/users$, roles: ROLE_USER, methods: [GET] }
+        - { path: ^/v1/api/users/\d+$, roles: ROLE_USER }
