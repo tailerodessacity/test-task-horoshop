@@ -1,0 +1,141 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.6
+-- Dumped by pg_dump version 16.6
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: doctrine_migration_versions; Type: TABLE; Schema: public; Owner: app
+--
+
+CREATE TABLE public.doctrine_migration_versions (
+    version character varying(191) NOT NULL,
+    executed_at timestamp(0) without time zone DEFAULT NULL::timestamp without time zone,
+    execution_time integer
+);
+
+
+ALTER TABLE public.doctrine_migration_versions OWNER TO app;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: app
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    login character varying(8) NOT NULL,
+    phone character varying(8) NOT NULL,
+    pass character varying(255) NOT NULL,
+    api_token character varying(255) DEFAULT NULL::character varying,
+    roles json NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO app;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: app
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_id_seq OWNER TO app;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: app
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: app
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- Data for Name: doctrine_migration_versions; Type: TABLE DATA; Schema: public; Owner: app
+--
+
+COPY public.doctrine_migration_versions (version, executed_at, execution_time) FROM stdin;
+DoctrineMigrations\\Version20241227141653	2024-12-27 14:17:15	27
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: app
+--
+
+COPY public.users (id, login, phone, pass, api_token, roles) FROM stdin;
+1	admin	11223344	$2y$13$fd4Q92AkBEQbrfLbdN/Wk.3ZNqEMil5gf/3RXHkLFgwM9M1dOhIRG	7e9fce4c9d6e1a2f8acaf9f978e9751b54bc7936ee321ac82fb4df23735e36d7	["ROLE_ADMIN"]
+2	user_le	11223344	$2y$13$fXmsIX0QSaMpvITq7G4wR.3//7XHrvzlB8Ic52ZKDX07ls8M2MA32	61b989e2a1385e28ebf8a7a013e6b1481ad8e542dc44d089a7dd7f7d6e62ce50	["ROLE_USER"]
+6	user_le1	11223344	$2y$13$m/9K12elgyr7N6L0wrFwXuZU7xDmEkBPpDg6iw6iatclxfM2XrM26	48d9e47777d03688310eadceb4fb2e0a2c5f6547bb7f52b4cbdf67aa9876cd3d	["ROLE_USER"]
+\.
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: app
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 7, true);
+
+
+--
+-- Name: doctrine_migration_versions doctrine_migration_versions_pkey; Type: CONSTRAINT; Schema: public; Owner: app
+--
+
+ALTER TABLE ONLY public.doctrine_migration_versions
+    ADD CONSTRAINT doctrine_migration_versions_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: app
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: uniq_1483a5e97ba2f5eb; Type: INDEX; Schema: public; Owner: app
+--
+
+CREATE UNIQUE INDEX uniq_1483a5e97ba2f5eb ON public.users USING btree (api_token);
+
+
+--
+-- Name: uniq_1483a5e9aa08cb10; Type: INDEX; Schema: public; Owner: app
+--
+
+CREATE UNIQUE INDEX uniq_1483a5e9aa08cb10 ON public.users USING btree (login);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
