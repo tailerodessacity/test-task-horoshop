@@ -3,10 +3,9 @@
 services:
     # Default configuration for services in *this* file
     _defaults:
-        autowire: true      # Автоматически внедряет зависимости в ваши сервисы.
-        autoconfigure: true # Автоматически регистрирует ваши сервисы как команды, обработчики событий и т.д.
+        autowire: true 
+        autoconfigure: true
 
-    # Делаем классы в src/ доступными для использования как сервисы
     App\:
         resource: '../src/'
         exclude:
@@ -18,12 +17,6 @@ services:
         arguments:
             $userRepository: '@App\Repository\UserRepository'
         tags: ['security.authenticator']
-
-    App\Command\CreateUserCommand:
-        tags: ['console.command']
-
-    App\Command\GenerateApiTokenCommand:
-        tags: ['console.command']
         
     App\EventListener\ExceptionListener:
         tags:
