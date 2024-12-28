@@ -1,14 +1,14 @@
 <?php
 
-namespace App;
+namespace App\EventListener;
 
 use App\Event\UserCreatedEvent;
-use App\Event\UserUpdatedEvent;
 use App\Event\UserDeletedEvent;
+use App\Event\UserUpdatedEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-readonly class UserEventSubscriber implements EventSubscriberInterface
+readonly class UserEventSubscriberListener implements EventSubscriberInterface
 {
     public function __construct(private LoggerInterface $logger){}
 

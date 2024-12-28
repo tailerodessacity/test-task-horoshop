@@ -22,6 +22,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
-    App\UserEventSubscriber:
+    App\EventListener\UserEventSubscriberListener:
         tags:
             - { name: 'kernel.event_subscriber' }
