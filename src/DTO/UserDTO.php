@@ -16,7 +16,7 @@ class UserDTO
     public string $login;
 
     #[Assert\NotBlank]
-//    #[Assert\Regex(pattern: "/^\+\d{10,15}$/", message: "Phone number must be in international format.")]
+    #[Assert\Regex(pattern: "/^\+\d{10,15}$/", message: "Phone number must be in international format.")]
     public string $phone;
 
     #[Assert\NotBlank]
